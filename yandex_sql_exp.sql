@@ -1,6 +1,6 @@
 -- Есть две таблицы Table1, Table2 со списком id. Найдите все id из Table1, кроме тех, которые есть в Table2.
 
-```mysql
+
 SELECT t1.id
   FROM Table1 AS t1
        LEFT JOIN Table2 AS t2
@@ -13,7 +13,7 @@ SELECT t1.id
                     SELECT t2.id
                       FROM Table2 AS t2
                       );
- ```
+ 
             
                       
                       
@@ -23,7 +23,7 @@ SELECT t1.id
 Таблица cards : card_id , user_id , name , surname
 Напишите SQL запрос, выбирающий пользователей (user_id и login), у которых заведено более одной карточки.
 */
-```mysql
+
 WITH cards_qty AS (
                 SELECT COUNT(card_id) AS qty,
                         user_id
@@ -36,7 +36,7 @@ SELECT u.user_id, u.login
        LEFT JOIN cards_qty AS cq
        ON u.user_id = cq.user_id
  WHERE cq.qty > 1;
-  ```
+  
  
  /*
  У вас есть таблица quality_score с результатами внутренней проверки качества звонков операторов.
@@ -51,7 +51,7 @@ SELECT u.user_id, u.login
 Рассчитайте итоговую среднюю оценку по всем звонкам, которые были совершены в августе 2021.
 Если записей с оценками по звонку несколько, то берем самую свежую оценку.
 */
-```mysql
+
 WITH max_date AS(
                     SELECT MAX(qs2.SCORE_DT) AS max_d,
                            CALL_ID
@@ -62,8 +62,7 @@ WITH max_date AS(
 SELECT AVG(qs1.SCORE) AS avg_score
   FROM quality_score AS qs1
        LEFT JOIN max_date AS md
-```
        ON md.CALL_ID = qs1.CALL_ID
  WHERE strto_date(qs1.CALL_DT, '%Y/%m') = '2021/08'
    AND qs1.SCORE_DT = md.max_d;
- ```
+
